@@ -1,0 +1,615 @@
+// Brand Boost — design layer over the installed Boost. GPL-3.0-or-later.
+// Moodle 5.2 / Bootstrap 5.3 adapter. Keep product markup and behaviours upstream.
+
+:root {
+    --bb-brand: #{$bb-brandcolor};
+    --bb-accent: #{$bb-accentcolor};
+    --bb-sky: #{$bb-skycolor};
+    --bb-coral: #{$bb-coralcolor};
+    --bb-ink: #{$bb-inkcolor};
+    --bb-mauve: #{$bb-mauvecolor};
+    --bb-night: #{$bb-nightcolor};
+    --bb-wine: #{$bb-winecolor};
+    --bb-canvas: #{mix($bb-skycolor, #fff, 8%)};
+    --bb-surface: #fff;
+    --bb-raised: #fff;
+    --bb-subtle: #{mix($bb-skycolor, #fff, 14%)};
+    --bb-text: #{$bb-nightcolor};
+    --bb-muted: #{mix($bb-nightcolor, #fff, 78%)};
+    --bb-border: #{mix($bb-inkcolor, #fff, 19%)};
+    --bb-link: #{$bb-inkcolor};
+    --bb-hover: #{mix($bb-inkcolor, #000, 82%)};
+    --bb-selected: #{mix($bb-brandcolor, #fff, 13%)};
+    --bb-selected-text: #{mix($bb-inkcolor, #000, 78%)};
+    --bb-shadow: 0 6px 28px #{rgba($bb-nightcolor, .055)};
+    --bb-radius: 1rem;
+    --bb-focus: #{$bb-inkcolor};
+    color-scheme: light;
+}
+
+// Use Bootstrap's own colour-mode mechanism so native components can follow.
+html[data-bs-theme="dark"] {
+    --bb-canvas: #{mix($bb-nightcolor, #080c13, 42%)};
+    --bb-surface: #{mix($bb-nightcolor, #101720, 52%)};
+    --bb-raised: #{mix($bb-nightcolor, #1d2731, 55%)};
+    --bb-subtle: #{mix($bb-nightcolor, #203547, 58%)};
+    --bb-text: #f0f3f8;
+    --bb-muted: #c2c8d3;
+    --bb-border: #{mix($bb-mauvecolor, #17202c, 53%)};
+    --bb-link: #{mix($bb-skycolor, #fff, 82%)};
+    --bb-hover: #fff;
+    --bb-selected: #{mix($bb-inkcolor, #152333, 42%)};
+    --bb-selected-text: #c7eaff;
+    --bb-shadow: 0 6px 28px #0003;
+    --bb-focus: #{$bb-skycolor};
+    --bs-body-bg: var(--bb-surface);
+    --bs-body-bg-rgb: #{red(mix($bb-nightcolor, #101720, 52%))}, #{green(mix($bb-nightcolor, #101720, 52%))}, #{blue(mix($bb-nightcolor, #101720, 52%))};
+    --bs-body-color: var(--bb-text);
+    --bs-body-color-rgb: 240, 243, 248;
+    --bs-emphasis-color: #fff;
+    --bs-heading-color: var(--bb-text);
+    --bs-emphasis-color-rgb: 255, 255, 255;
+    --bs-secondary-color: var(--bb-muted);
+    --bs-secondary-color-rgb: 194, 200, 211;
+    --bs-secondary-bg: var(--bb-subtle);
+    --bs-tertiary-bg: var(--bb-raised);
+    --bs-border-color: var(--bb-border);
+    --bs-link-color: var(--bb-link);
+    --bs-link-color-rgb: 159, 218, 247;
+    --bs-link-hover-color: #fff;
+    --bs-link-hover-color-rgb: 255, 255, 255;
+    color-scheme: dark;
+}
+
+body {
+    background-color: var(--bb-canvas);
+    color: var(--bb-text);
+    font-family: $font-family-sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+// No global transitions on layout: Boost manages drawer motion and focus itself.
+body a:not(.btn):not(.dropdown-item):not(.nav-link):not(.courseindex-link) {
+    color: var(--bb-link);
+}
+
+body a:not(.btn):not(.dropdown-item):not(.nav-link):hover {
+    color: var(--bb-hover);
+}
+
+body .footer-dark a:not(.btn):not(.dropdown-item):not(.nav-link):not(.courseindex-link) {
+    color: #{$bb-skycolor};
+}
+
+:focus-visible {
+    outline: 3px solid var(--bb-focus);
+    outline-offset: 3px;
+}
+
+body .navbar {
+    background: var(--bb-surface) !important;
+    border-bottom: 1px solid var(--bb-border);
+    box-shadow: 0 3px 18px #{rgba($bb-nightcolor, .04)};
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto;
+        height: 3px;
+        background: linear-gradient(90deg, $bb-brandcolor 0%, $bb-brandcolor 62%, $bb-accentcolor 100%);
+    }
+
+    .navbar-brand {
+        color: var(--bb-text);
+        font-weight: 750;
+        letter-spacing: -.035em;
+    }
+
+    .nav-link,
+    .usermenu a {
+        color: var(--bb-text);
+    }
+
+    .primary-navigation .navigation .nav-link.active {
+        color: var(--bb-link);
+        border-bottom-color: var(--bb-brand);
+        font-weight: 650;
+    }
+}
+
+body #page.drawers {
+    background: transparent;
+
+    .main-inner {
+        background: var(--bb-surface);
+        border: 1px solid var(--bb-border);
+        border-radius: 1.25rem;
+        box-shadow: var(--bb-shadow);
+        max-width: var(--bb-content-width, 1520px);
+        padding: clamp(1rem, 2.8vw, 2.5rem);
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+body.pagelayout-report #page.drawers .main-inner {
+    max-width: none;
+}
+
+#page-header {
+    margin-bottom: 1.5rem;
+
+    h1 {
+        font-size: clamp(1.6rem, 2.5vw, 2.25rem);
+        font-weight: 750;
+        letter-spacing: -.04em;
+        line-height: 1.2;
+    }
+}
+
+.pagelayout-course #page-header {
+    padding: clamp(1rem, 2.4vw, 2rem);
+    background: linear-gradient(115deg, var(--bb-subtle), var(--bb-surface));
+    border: 1px solid var(--bb-border);
+    border-inline-start: 4px solid var(--bb-brand);
+    border-radius: var(--bb-radius);
+}
+
+body #region-main {
+    background-color: var(--bb-surface);
+    color: var(--bb-text);
+}
+
+.secondary-navigation .navigation {
+    background: transparent;
+    border-color: var(--bb-border);
+
+    .nav-tabs .nav-link {
+        color: var(--bb-muted);
+        border-radius: .65rem .65rem 0 0;
+
+        &.active {
+            background: var(--bb-subtle);
+            border-bottom-color: var(--bb-brand);
+            color: var(--bb-link);
+        }
+    }
+}
+
+// Section cards, inspired by Magnific; original nodes, IDs and drawer handlers are preserved.
+body .drawer {
+    background: var(--bb-canvas);
+    border-color: var(--bb-border);
+
+    .drawerheader {
+        background: var(--bb-canvas);
+        padding-inline: 1rem;
+    }
+
+    .drawercontent {
+        padding: .5rem .85rem 1rem;
+        scrollbar-width: thin;
+        scrollbar-color: var(--bb-border) transparent;
+    }
+
+    .drawertoggle,
+    .drawerheading a {
+        color: var(--bb-text);
+    }
+}
+
+body .drawer #courseindexdrawerheading .courseindex-link {
+    color: var(--bb-text);
+
+    &:hover,
+    &:focus {
+        color: var(--bb-link);
+    }
+}
+
+.courseindex .courseindex-section {
+    background: var(--bb-surface);
+    border: 1px solid var(--bb-border);
+    border-inline-start: 3px solid transparent;
+    border-radius: var(--bb-radius);
+    margin-block: .65rem;
+    padding: .35rem;
+    box-shadow: 0 2px 6px #{rgba($bb-nightcolor, .025)};
+
+    &.current {
+        border-inline-start-color: var(--bb-brand);
+    }
+
+    .courseindex-section-title {
+        padding-block: .65rem;
+    }
+
+    .courseindex-item {
+        border-radius: .6rem;
+
+        .courseindex-link,
+        .courseindex-chevron {
+            color: var(--bb-text);
+        }
+
+        &:hover,
+        &:focus-within {
+            background: var(--bb-subtle);
+            color: var(--bb-text);
+
+            .courseindex-link,
+            .courseindex-chevron {
+                color: var(--bb-text);
+            }
+        }
+
+        &.pageitem {
+            background: var(--bb-selected);
+            color: var(--bb-selected-text);
+
+            .courseindex-link,
+            .courseindex-chevron {
+                color: var(--bb-selected-text);
+                font-weight: 650;
+            }
+        }
+
+        &.dimmed .courseindex-link {
+            color: var(--bb-muted);
+        }
+    }
+}
+
+body .card,
+body .block,
+body .list-group-item {
+    background-color: var(--bb-surface);
+    border-color: var(--bb-border);
+    color: var(--bb-text);
+}
+
+.dashboard-card,
+.block {
+    border-radius: var(--bb-radius);
+    box-shadow: var(--bb-shadow);
+}
+
+.dashboard-card {
+    .dashboard-card-img {
+        border-radius: var(--bb-radius) var(--bb-radius) 0 0;
+    }
+
+    .coursename {
+        font-weight: 650;
+        letter-spacing: -.015em;
+    }
+}
+
+.block .card-title {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.course-content .section.main,
+.course-content .course-section {
+    border-radius: var(--bb-radius);
+    border-color: var(--bb-border);
+}
+
+body .activity-item {
+    background: var(--bb-surface);
+    border-color: var(--bb-border);
+    border-radius: .85rem;
+}
+
+.btn {
+    font-weight: 600;
+    border-radius: .65rem;
+}
+
+// Bright cyan with white text does not pass AA. Bootstrap calculates a contrasting foreground.
+.btn-primary {
+    @include button-variant($primary, $primary, color-contrast($primary));
+    box-shadow: 0 3px 10px #{rgba($primary, .16)};
+}
+
+.btn-danger {
+    @include button-variant($danger, $danger, color-contrast($danger));
+}
+
+.btn-outline-primary {
+    @include button-outline-variant($bb-inkcolor);
+}
+
+body .form-control,
+body .form-select {
+    background-color: var(--bb-surface);
+    color: var(--bb-text);
+    border-color: var(--bb-border);
+    border-radius: .65rem;
+
+    &:focus {
+        border-color: var(--bb-focus);
+        box-shadow: 0 0 0 .2rem #{rgba($bb-brandcolor, .2)};
+    }
+}
+
+.bb-mode-label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    color: var(--bb-text);
+}
+
+.bb-mode-icon {
+    position: absolute;
+    inset-inline-start: .7rem;
+    pointer-events: none;
+    font-size: 1.15rem;
+}
+
+.bb-mode-select {
+    min-height: 2.5rem;
+    max-width: 8.75rem;
+    padding: .4rem .5rem;
+    padding-inline-start: 2rem;
+    background: var(--bb-subtle);
+    border: 1px solid var(--bb-border);
+    border-radius: .75rem;
+    color: var(--bb-text);
+    font: inherit;
+    font-size: .8rem;
+    cursor: pointer;
+}
+
+// Login is genuine Moodle: SSO, MFA, recovery and form validation remain native.
+body.pagelayout-login #page {
+    background: var(--bb-canvas);
+
+    .login-layout-left {
+        background:
+            radial-gradient(ellipse at 15% 20%, #{rgba($bb-brandcolor, .5)}, transparent 55%),
+            radial-gradient(ellipse at 95% 100%, #{rgba($bb-winecolor, .8)}, transparent 60%),
+            linear-gradient(145deg, $bb-inkcolor, $bb-nightcolor 70%);
+
+        // Boost adds a watermark for its stock photograph; our panel is a CSS gradient.
+        &::after {
+            content: none;
+        }
+    }
+
+    .login-layout-right {
+        background: var(--bb-surface);
+    }
+
+    .login-layout-left-content {
+        max-width: 29rem;
+        text-align: start;
+        background: transparent;
+        color: #fff;
+
+        h1 {
+            font-size: clamp(2.5rem, 4vw, 4rem);
+            line-height: 1.06;
+            font-weight: 750;
+            letter-spacing: -.055em;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #e1edf5;
+        }
+
+        a {
+            color: #fff;
+        }
+    }
+
+    .login-container .login-form .form-control {
+        background: var(--bb-subtle);
+        color: var(--bb-text);
+    }
+
+    .login-form-username .form-control {
+        width: 100%;
+    }
+}
+
+.bb-login-mark {
+    display: flex;
+    align-items: end;
+    gap: .5rem;
+    margin-block-end: 2rem;
+
+    span {
+        width: .65rem;
+        height: 2rem;
+        border-radius: 1rem;
+        background: var(--bb-brand);
+
+        &:nth-child(2) {
+            height: 3rem;
+            background: var(--bb-sky);
+        }
+
+        &:nth-child(3) {
+            height: 1.4rem;
+            background: var(--bb-accent);
+        }
+    }
+}
+
+// Moodle still has some fixed light colours outside Bootstrap variables.
+html[data-bs-theme="dark"] body {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .h1,
+    .h2,
+    .h3,
+    .h4,
+    .h5,
+    .h6 {
+        color: var(--bb-text);
+    }
+
+    .navbar .moremenu .nav-link,
+    .navbar .btn,
+    .navbar .popover-region-toggle,
+    .drawer .btn {
+        color: var(--bb-text);
+    }
+
+    .secondary-navigation .moremenu,
+    .secondary-navigation .nav-tabs {
+        background: var(--bb-surface);
+        border-color: var(--bb-border);
+    }
+
+    .secondary-navigation .moremenu .nav-link {
+        color: var(--bb-muted);
+
+        &.active,
+        &:hover,
+        &:focus {
+            background: var(--bb-subtle);
+            color: var(--bb-link);
+        }
+    }
+
+    .course-content .section.main,
+    .course-content .course-section,
+    .course-content .activity-item,
+    .course-content .activity-altcontent,
+    .activity-item .description .course-description-item {
+        border-color: var(--bb-border);
+    }
+
+    .bg-white,
+    .bg-light,
+    .bg-body,
+    .bg-gray {
+        background-color: var(--bb-surface) !important;
+    }
+
+    .text-dark,
+    .text-body,
+    .text-black {
+        color: var(--bb-text) !important;
+    }
+
+    .text-muted,
+    .dimmed_text,
+    .breadcrumb-item {
+        color: var(--bb-muted) !important;
+    }
+
+    .dropdown-menu,
+    .popover,
+    .modal-content,
+    .filemanager-container,
+    .filepicker-filelist,
+    .fp-content,
+    .editor_atto_content,
+    .message-app {
+        background: var(--bb-raised);
+        border-color: var(--bb-border);
+        color: var(--bb-text);
+    }
+
+    .dropdown-item {
+        color: var(--bb-text);
+
+        &:hover,
+        &:focus,
+        &.active {
+            background: var(--bb-selected);
+            color: var(--bb-selected-text);
+        }
+    }
+
+    .table {
+        --bs-table-bg: var(--bb-surface);
+        --bs-table-color: var(--bb-text);
+        --bs-table-striped-bg: var(--bb-subtle);
+        --bs-table-striped-color: var(--bb-text);
+        --bs-table-hover-bg: var(--bb-selected);
+        --bs-table-hover-color: var(--bb-text);
+        border-color: var(--bb-border);
+        color: var(--bb-text);
+    }
+
+    .btn-secondary,
+    .btn-outline-secondary {
+        --bs-btn-color: var(--bb-text);
+        --bs-btn-bg: var(--bb-subtle);
+        --bs-btn-border-color: var(--bb-border);
+        --bs-btn-hover-color: var(--bb-text);
+        --bs-btn-hover-bg: var(--bb-raised);
+        --bs-btn-hover-border-color: var(--bb-muted);
+        color: var(--bb-text);
+        background-color: var(--bb-subtle);
+        border-color: var(--bb-border);
+
+        &:hover,
+        &:focus {
+            color: var(--bb-text);
+            background-color: var(--bb-raised);
+            border-color: var(--bb-muted);
+        }
+    }
+
+    .btn-outline-primary {
+        --bs-btn-color: var(--bb-link);
+        --bs-btn-border-color: var(--bb-link);
+    }
+
+    .activity-add,
+    .section .activity.modtype_label,
+    .path-mod .activity-information {
+        background-color: var(--bb-surface);
+        color: var(--bb-text);
+    }
+}
+
+@media (max-width: 767.98px) {
+    body #page.drawers .main-inner {
+        margin-top: .5rem;
+        padding: 1rem;
+        border-radius: .85rem;
+    }
+
+    .bb-mode-select {
+        max-width: 7rem;
+        font-size: .75rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .drawer,
+    #page.drawers,
+    .collapsing {
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+@media print {
+    html[data-bs-theme] body,
+    html[data-bs-theme] #region-main,
+    html[data-bs-theme] #page.drawers .main-inner {
+        background: #fff !important;
+        color: #000 !important;
+        box-shadow: none;
+        border: 0;
+    }
+
+    html[data-bs-theme] body a {
+        color: #000 !important;
+    }
+}

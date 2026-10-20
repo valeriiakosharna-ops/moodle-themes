@@ -1,0 +1,27 @@
+name: Check theme packages
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  packages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+      - name: Check PHP syntax
+        run: find themes -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+      - run: npm run package
+      - name: Check that committed builds and packages match their sources
+        run: git diff --exit-code -- themes packages

@@ -1,0 +1,16 @@
+{{!
+    @template theme_brandboost/appearance
+    Accessible native selector: keyboard, touch and screen readers work without a custom menu.
+    Example context (json): {}
+}}
+<div class="bb-appearance d-flex align-items-center mx-1">
+    <label class="bb-mode-label">
+        <span class="visually-hidden">{{#str}}appearance, theme_brandboost{{/str}}</span>
+        <span class="bb-mode-icon" aria-hidden="true">◐</span>
+        <select class="bb-mode-select" data-bb-mode-select>
+            <option value="light">{{#str}}mode_light, theme_brandboost{{/str}}</option>
+            <option value="dark">{{#str}}mode_dark, theme_brandboost{{/str}}</option>
+            <option value="auto">{{#str}}mode_auto, theme_brandboost{{/str}}</option>
+        </select>
+    </label>
+</div>

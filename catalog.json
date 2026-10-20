@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "variants": [
+    {
+      "theme": "brandboost",
+      "name": "Brand Boost",
+      "moodle": "5.2",
+      "version": 2026102000,
+      "release": "1.0.0",
+      "status": "beta",
+      "source": "themes/brandboost/moodle-5.2/brandboost",
+      "archive": "packages/brandboost/moodle-5.2/theme_brandboost_moodle52_2026102000.zip"
+    }
+  ]
+}

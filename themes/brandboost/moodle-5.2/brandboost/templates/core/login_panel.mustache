@@ -1,0 +1,15 @@
+{{!
+    @template theme_brandboost/core/login_panel
+    Brand panel only. Authentication and the login form remain entirely native.
+    Example context (json): {"leftinstructions": "<p>Welcome</p>"}
+}}
+<div class="login-layout-left-content">
+    {{^leftinstructions}}
+        <div class="bb-login-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+        <h1 class="h2 mb-3">{{#str}}welcomeheading, theme_brandboost{{/str}}</h1>
+        <p class="mx-auto mb-4">{{#str}}welcometext, theme_brandboost{{/str}}</p>
+    {{/leftinstructions}}
+    {{#leftinstructions}}
+        <div class="mx-auto text-start">{{{leftinstructions}}}</div>
+    {{/leftinstructions}}
+</div>
